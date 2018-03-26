@@ -1,6 +1,5 @@
 <template>
     <div>
-        jhjhjhj    jhjhjhj
         {{ message }}
         <titlex></titlex>
     </div>

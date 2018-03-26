@@ -1,7 +1,6 @@
 <template>
     <div>
-        sdsdd
-        <p>sss{{ Text }}</p>
+        <p>{{ Text }}</p>
     </div>
 
 </template>
