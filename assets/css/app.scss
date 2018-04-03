@@ -1,0 +1,26 @@
+// assets/css/global.scss
+
+// customize some Bootstrap variables
+$brand-primary: darken(#428bca, 20%);
+
+// the ~ allows you to reference things in node_modules
+@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
+.col {
+  text-align: center!important;
+}
+#Footer {
+  padding: 0.5rem;
+  border-bottom: 0.14rem solid black;
+  border-top: 0.14rem solid black;
+  margin-top: 20px;
+}
+
+#wrapper {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+.body {
+  font-family: Arial;
+}

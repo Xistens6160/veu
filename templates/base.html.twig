@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <!-- ... -->
-        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}
-        <div id="app">
-            <App />
+<head>
+    <meta charset="UTF-8">
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <!-- ... -->
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+{% block body %}
+    <div id="wrapper">
+    <div class="" id="header">
+        <div class="row">
+            <div class="col">
+                <h1> Blog </h1>
+            </div>
         </div>
-        {% endblock %}
+    </div>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+    <div class="" id="Footer">
+        <div class="col text-center">
+            <p id="footer">Written by Harun Günlü</p>
+        </div>
+    </div>
+    </div>
+{% endblock %}
 
-        {% block javascripts %}{% endblock %}
-        <script src="{{ asset('build/app.js') }}"></script>
-    </body>
+{% block javascripts %}{% endblock %}
+<script src="{{ asset('build/app.js') }}"></script>
+</body>
 </html>
