@@ -40,7 +40,7 @@ class Comments
     /**
      * @var int The date of publication of this review.
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string")
      */
     public $publicationDate;
 

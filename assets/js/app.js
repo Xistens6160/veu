@@ -2,7 +2,7 @@ import '../css/app.scss';
 
 import Vue from 'vue';
 
-import App from '../vue/postinput.vue';
+import Postinput from '../vue/postinput.vue';
 import List from '../vue/list.vue'
 import Post from '../vue/post.vue'
 
@@ -11,16 +11,11 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
 
-const Main = App;
-const Bloglist = List;
-const Userpost = Post;
-
-
 const routes = [
 
-    { path: '/post', component: Main},
-    { path: '/', component: Bloglist},
-    { path: '/entry', component: Userpost}
+    { path: '/post', component: Postinput},
+    { path: '/', component: List},
+    { path: '/entry', component: Post}
 ];
 
 const router = new VueRouter({

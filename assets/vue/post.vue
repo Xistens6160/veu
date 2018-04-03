@@ -10,16 +10,18 @@
         <br/>
         <h1>Comments</h1>
         <div class="comment">
-            <p class="user">Dummy Bot</p>
-            <p class="usercomment">Lol you are so DummyLol you are so DummyLol you are so DummyLol you are Lol you are so DummyLol you are so DummyLol you are so DummyLol you are so DummyLol you are so Dummyso DummyLol you are so Dummy</p>
-            <p class="commentdate">27/03/2018</p>
+            <div class="comments" v-for="(com, index) of comments['hydra:member']">
+            <p class="user">{{ com.commentauthor }} </p>
+            <p class="usercomment">{{ com.commentbody }}</p>
+            <p class="commentdate">{{ com.publicationDate }}</p>
         </div>
-        <div class="comment">
-            <p class="user">Dummy Bot</p>
-            <p class="usercomment">Lol you are so Dummy</p>
-            <p class="commentdate">27/03/2018</p>
         </div>
+        <textarea id="comment" type="text" class="form-control" placeholder="Write your own Comment" v-model="commenttext"></textarea>
+        <p id="name">Write your name:</p>
+        <textarea id="commentname" type="text" class="form-control" placeholder="Write your name" v-model="commentname"></textarea>
         <router-link to="/" id="backbutton" class="btn btn-danger button" tag="button">Get Back</router-link>
+        <button class="btn btn-primary" id="postbutton" v-on:click="postComment">POST</button>
+
     </div>
 </template>
 <script>
@@ -28,26 +30,69 @@
     export default {
         data: function () {
             return {
-                response: []
+                response: [],
+                comments: [],
+                commenttext: "",
+                commentname: "Annonym",
+                id: "api/blogposts/" + this.$route.query.id
             }
         },
 
         methods:
             {
                 getData: function () {
-                    axios.get('/api/blogposts/12')
+                    axios.get('/api/blogposts/'+this.$route.query.id)
                         .then(response => {
                             this.response = response.data;
+                        })
+                },
+
+                postComment: function () {
+                    axios.post('/api/comments', {
+                        blogtext: this.id,
+                        commentbody: this.commenttext,
+                        commentauthor: this.commentname,
+                        publicationDate: this.date
+                    },
+                     this.$router.push("/entry?id="+this.$route.query.id ))
+                },
+                
+                getComments: function () {
+                    axios.get('/api/comments')
+                        .then(response => {
+                            this.comments = response.data;
                         })
                 }
             },
 
+        computed: {
+            date: function () {
+                var currentdate = new Date();
+                var dd = currentdate.getDate();
+                var mm = currentdate.getMonth() + 1;
+                var yyyy = currentdate.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                var currentdate = dd + '/' + mm + '/' + yyyy;
+                return currentdate;
+            }
+        },
+
         created() {
             this.getData();
+            this.getComments();
         }
     }
 </script>
 <style>
+    #postbutton {
+        margin-top: -70px;
+    }
+
     #backbutton {
         width: 125px;
         margin-left: 1500px;
@@ -99,6 +144,26 @@
 
     .comment{
         margin-top: 20px;
+    }
+
+    #comment {
+        margin-top: 40px;
+    }
+
+    .comments{
+        margin-top: 25px;
+    }
+
+    #name{
+        font-size: large;
+        margin-top: 25px;
+    }
+
+    #commentname{
+        width: 200px;
+        height: 36px;
+        margin-left: 200px;
+        margin-top: -40px;
     }
 
 </style>

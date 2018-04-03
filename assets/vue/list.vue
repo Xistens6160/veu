@@ -8,7 +8,7 @@
                 <div class="author"> from  {{ res.author }}</div>
                 <p class="date"> {{ res.releaseDate }}</p>
                 <p class="subtext">{{ res.subtext }}</p>
-                <router-link to="/entry">click here to read more</router-link>
+                <router-link :to="{path:'/entry?id=' + res.id}">click here to read more</router-link>
             </div>
         </div>
     </div>
