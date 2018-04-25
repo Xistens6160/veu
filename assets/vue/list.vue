@@ -1,6 +1,7 @@
 <template>
     <div>
-        <router-link to="/post" id="createpostbutton" class="btn btn-success button" tag="button">create new post</router-link>
+        <router-link to="/post" id="createpostbutton" class="btn btn-success button" tag="button">create new post
+        </router-link>
         <br/>
         <div v-for="(res, index) of response['hydra:member']">
             <div class="entry">
@@ -30,14 +31,15 @@
                         .then(response => {
                             this.response = response.data;
                         })
-                }
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                },
             },
-
         created() {
             this.getData();
         }
     }
-
 </script>
 <style>
     #createpostbutton {

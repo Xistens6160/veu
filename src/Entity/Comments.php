@@ -52,7 +52,6 @@ class Comments
     public $blogtext;
 
 
-
     /**
      * @return mixed
      */

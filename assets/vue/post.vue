@@ -10,15 +10,17 @@
         <br/>
         <h1>Comments</h1>
         <div class="comment">
-            <div class="comments" v-for="(com, index) of comments['hydra:member']">
-            <p class="user">{{ com.commentauthor }} </p>
-            <p class="usercomment">{{ com.commentbody }}</p>
-            <p class="commentdate">{{ com.publicationDate }}</p>
+            <div class="comments" v-for="(res,index) of usercomments">
+                <p class="user">{{ res.commentauthor}} </p>
+                <p class="usercomment">{{ res.commentbody }}</p>
+                <p class="commentdate">{{ res.publicationDate }}</p>
+            </div>
         </div>
-        </div>
-        <textarea id="comment" type="text" class="form-control" placeholder="Write your own Comment" v-model="commenttext"></textarea>
+        <textarea id="comment" type="text" class="form-control" placeholder="Write your own Comment"
+                  v-model="commenttext"></textarea>
         <p id="name">Write your name:</p>
-        <textarea id="commentname" type="text" class="form-control" placeholder="Write your name" v-model="commentname"></textarea>
+        <textarea id="commentname" type="text" class="form-control" placeholder="Write your name"
+                  v-model="commentname"></textarea>
         <router-link to="/" id="backbutton" class="btn btn-danger button" tag="button">Get Back</router-link>
         <button class="btn btn-primary" id="postbutton" v-on:click="postComment">POST</button>
 
@@ -31,7 +33,7 @@
         data: function () {
             return {
                 response: [],
-                comments: [],
+                usercomments: [],
                 commenttext: "",
                 commentname: "Annonym",
                 id: "api/blogposts/" + this.$route.query.id
@@ -41,28 +43,39 @@
         methods:
             {
                 getData: function () {
-                    axios.get('/api/blogposts/'+this.$route.query.id)
+                    axios.get('/api/blogposts/' + this.$route.query.id)
                         .then(response => {
                             this.response = response.data;
+                            this.getComments();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
                         })
                 },
 
                 postComment: function () {
                     axios.post('/api/comments', {
-                        blogtext: this.id,
-                        commentbody: this.commenttext,
-                        commentauthor: this.commentname,
-                        publicationDate: this.date
-                    },
-                     this.$router.push("/entry?id="+this.$route.query.id ))
+                            blogtext: this.id,
+                            commentbody: this.commenttext,
+                            commentauthor: this.commentname,
+                            publicationDate: this.date
+                        },
+                        this.$router.push("/entry?id=" + this.$route.query.id))
                 },
-                
+
                 getComments: function () {
-                    axios.get('/api/comments')
-                        .then(response => {
-                            this.comments = response.data;
-                        })
-                }
+//                    this.usercomments.push({"hydra:member" : []});
+                    this.response.comments.forEach(function (currentValue) {
+                        axios.get(currentValue)
+                            .then(function (response) {
+                                this.usercomments.push(response.data);
+                                console.log(JSON.parse(JSON.stringify(this.usercomments)));
+                            }.bind(this))
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                    }.bind(this));
+                },
             },
 
         computed: {
@@ -82,15 +95,16 @@
             }
         },
 
-        created() {
+        mounted() {
             this.getData();
-            this.getComments();
         }
     }
 </script>
 <style>
     #postbutton {
         margin-top: -70px;
+        width: 125px;
+        font-size: larger;
     }
 
     #backbutton {
@@ -142,7 +156,7 @@
         margin-top: -39px;
     }
 
-    .comment{
+    .comment {
         margin-top: 20px;
     }
 
@@ -150,16 +164,16 @@
         margin-top: 40px;
     }
 
-    .comments{
+    .comments {
         margin-top: 25px;
     }
 
-    #name{
+    #name {
         font-size: large;
         margin-top: 25px;
     }
 
-    #commentname{
+    #commentname {
         width: 200px;
         height: 36px;
         margin-left: 200px;

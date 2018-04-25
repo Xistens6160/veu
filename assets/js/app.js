@@ -13,9 +13,9 @@ Vue.use(VueRouter);
 
 const routes = [
 
-    { path: '/post', component: Postinput},
-    { path: '/', component: List},
-    { path: '/entry', component: Post}
+    {path: '/post', component: Postinput},
+    {path: '/', component: List},
+    {path: '/entry', component: Post}
 ];
 
 const router = new VueRouter({
